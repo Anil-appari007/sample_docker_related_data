@@ -16,15 +16,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+
+    # - name: Build the Docker image
+    #   run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
 
 #################################################
 
-    - name: Docker Image Scan with TRIVY and DOCKLE    ##https://github.com/Azure/container-scan
-      uses: azure/container-scan@v0           ##https://github.com/marketplace/actions/container-image-scan
-      with: 
-        image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+    # - name: Docker Image Scan with TRIVY and DOCKLE    ##https://github.com/Azure/container-scan
+    #   uses: azure/container-scan@v0           ##https://github.com/marketplace/actions/container-image-scan
+    #   with: 
+    #     image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
 
 #################################################
     # - name: Anchore Container Scan  #https://github.com/anchore/scan-action
@@ -34,6 +35,14 @@ jobs:
     #     fail-build: false
 
 #################################################
+    - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.6.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          target: 'https://www.zaproxy.org'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
       
       
       
