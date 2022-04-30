@@ -11,12 +11,12 @@ env:
 jobs:
 
   build:
-
+     if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
-
+    - name: test
+      run: echo hello
     # - name: Build the Docker image
     #   run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
 
@@ -35,15 +35,15 @@ jobs:
     #     fail-build: false
 
 #################################################
-    - name: ZAP Scan
-      uses: zaproxy/action-baseline@v0.6.1
-      with:
-          token: ${{ secrets.MY_GH_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'https://www.zaproxy.org'
-          # rules_file_name: '.zap/rules.tsv'
-          # cmd_options: '-a'
-          fail_action: false
+    # - name: ZAP Scan
+    #   uses: zaproxy/action-baseline@v0.6.1
+    #   with:
+    #       token: ${{ secrets.MY_GH_TOKEN }}
+    #       docker_name: 'owasp/zap2docker-stable'
+    #       target: 'https://www.zaproxy.org'
+    #       # rules_file_name: '.zap/rules.tsv'
+    #       # cmd_options: '-a'
+    #       fail_action: false
       
       
       
