@@ -20,11 +20,18 @@ jobs:
       run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
 
 
-    - name: Docker Image Scan
-      uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
-      with: 
-        image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+    # - name: Docker Image Scan _With_TRivy
+    #   uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
+    #   with: 
+    #     image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+    
+#################################################
+    - name: Anchore Container Scan  #https://github.com/anchore/scan-action
+      uses: anchore/scan-action@v3.2.4
+      with:
+        image: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}} 
 
+#################################################
       
       
       
