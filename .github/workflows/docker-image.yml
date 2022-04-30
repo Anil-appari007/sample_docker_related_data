@@ -24,12 +24,19 @@ jobs:
     #   uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
     #   with: 
     #     image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
-    
+
 #################################################
     - name: Anchore Container Scan  #https://github.com/anchore/scan-action
       uses: anchore/scan-action@v3.2.4
       with:
         image: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}} 
+        acs-report-enable: true
+        fail-build: false
+
+    - name: upload Anchore scan SARIF report
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif }}
 
 #################################################
       
