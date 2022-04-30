@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
 env:
-  DOCKER_IMAGE_NAME_WITH_TAG: my-image-name:$(date +%s)
+  DOCKER_IMAGE_NAME_WITH_TAG: my-image-name:1
 
 jobs:
 
