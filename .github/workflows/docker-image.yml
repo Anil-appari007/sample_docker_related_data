@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+env:
+  DOCKER_IMAGE_NAME_WITH_TAG: my-image-name:$(date +%s)
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+
+
+    - name:Docker Image Scan
+      uses: azure/container-scan@v0 ##https://github.com/marketplace/actions/container-image-scan
+      with: 
+        image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+
+      
+      
+      
