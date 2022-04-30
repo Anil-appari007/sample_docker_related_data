@@ -1,5 +1,5 @@
 FROM nginx:1.21.6-alpine
-RUN apk update --no-cache
+RUN apk del gzip
 COPY nginx_related/index.html /usr/share/nginx/html/
 
 
