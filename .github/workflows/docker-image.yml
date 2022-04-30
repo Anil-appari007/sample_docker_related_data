@@ -38,7 +38,7 @@ jobs:
     - name: ZAP Scan
       uses: zaproxy/action-baseline@v0.6.1
       with:
-          # token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MY_GH_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
           target: 'https://www.zaproxy.org'
           # rules_file_name: '.zap/rules.tsv'
