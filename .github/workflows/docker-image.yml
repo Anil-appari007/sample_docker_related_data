@@ -20,7 +20,7 @@ jobs:
     - name: test
       run: echo hello
   
-  #
+  ##
     # - name: Build the Docker image
     #   run: docker build . --file nginx_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
 
