@@ -7,7 +7,5 @@ RUN mkdir /opt/tomcat && \
             tar xvzf /tmp/apache-tomcat-9.0.63.tar.gz --strip-components 1 --directory /opt/tomcat && \
             /opt/tomcat/bin/catalina.sh version 
 
-
-
 EXPOSE 8080
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
