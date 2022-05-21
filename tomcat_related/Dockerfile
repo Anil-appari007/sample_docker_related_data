@@ -6,10 +6,11 @@ RUN         apk add --update --no-cache openjdk11-jre-headless=11.0.15_p10-r0 wg
 
 WORKDIR     /opt/tomcat
 RUN         tar xvzf /tmp/apache-tomcat-9.0.63.tar.gz --strip-components 1 --directory /opt/tomcat && \
-                /opt/tomcat/bin/catalina.sh version 
+                /opt/tomcat/bin/catalina.sh version && rm -rf /tmp/apache-tomcat-9.0.63.tar.gz
 
 EXPOSE      8080
 
+##  https://docs.docker.com/engine/reference/builder/
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:8080 || exit 1
 
