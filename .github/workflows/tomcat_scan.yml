@@ -1,0 +1,53 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+env:
+  DOCKER_IMAGE_NAME_WITH_TAG: my-image-name:1
+
+jobs:
+
+  build:
+    environment:
+      name: dev
+    #if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: test
+      run: echo hello
+  
+  ##
+    - name: Build the Docker image
+      run: docker build . --file tomcat_related/Dockerfile --tag ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+
+#################################################
+
+    - name: Docker Image Scan with TRIVY and DOCKLE    ##https://github.com/Azure/container-scan
+      uses: azure/container-scan@v0           ##https://github.com/marketplace/actions/container-image-scan
+      with: 
+        image-name: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}}
+
+#################################################
+    # - name: Anchore Container Scan  #https://github.com/anchore/scan-action
+    #   uses: anchore/scan-action@v3.2.4
+    #   with:
+    #     image: ${{env.DOCKER_IMAGE_NAME_WITH_TAG}} 
+    #     fail-build: false
+
+#################################################
+    # - name: ZAP Scan
+    #   uses: zaproxy/action-baseline@v0.6.1
+    #   with:
+    #       token: ${{ secrets.MY_GH_TOKEN }}
+    #       docker_name: 'owasp/zap2docker-stable'
+    #       target: 'https://www.zaproxy.org'
+    #       # rules_file_name: '.zap/rules.tsv'
+    #       # cmd_options: '-a'
+    #       fail_action: false
+      
+      
+      
