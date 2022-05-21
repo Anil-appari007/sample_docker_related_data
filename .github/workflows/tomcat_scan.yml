@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: TOMCAT_SCAN
 
 on:
   push:
@@ -11,9 +11,9 @@ env:
 jobs:
 
   build:
-    environment:
-      name: dev
-    #if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
+    # environment:
+    #   name: dev
+    
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
