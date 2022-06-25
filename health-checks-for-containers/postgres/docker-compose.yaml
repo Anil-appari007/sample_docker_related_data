@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - "./postgress_health_check.sh:/postgress_health_check.sh"
+    healthcheck:
+      test: /postgress_health_check.sh
